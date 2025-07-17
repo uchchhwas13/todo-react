@@ -37,6 +37,13 @@ const Todo = () => {
     localStorage.setItem("todos", JSON.stringify(todoList));
   },[todoList]);
 
+  const updateTodoText = (id, newText) => {
+    setTodoList((prevTodos) =>
+      prevTodos.map((todo) => (todo.id === id ? { ...todo, text: newText } : todo))
+    );
+  };
+
+
   const renderHeader = () => (
     <div className="flex items-center mt-7 gap-2">
       <img src={todo_icon} alt="To-Do icon" className="w-8" />
@@ -81,6 +88,7 @@ const Todo = () => {
               item={item}
               deleteTodoItem={deleteTodoItem}
               updateCompletionStatus={updateCompletionStatus}
+              updateTodoText={updateTodoText}
             ></TodoItem>
           );
         })}
