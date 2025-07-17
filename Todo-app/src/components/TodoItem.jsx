@@ -5,7 +5,7 @@ import delete_icon from '../assets/delete.png'
 
 
 
-const TodoItems = ({text}) => {
+const TodoItem = ({text}) => {
   return (
     <div className='flex items-center my-3 gap-2'>
       <div className='flex flex-1 items-center cursor-pointer'> 
@@ -17,4 +17,4 @@ const TodoItems = ({text}) => {
   )
 }
 
-export default TodoItems
+export default TodoItem
