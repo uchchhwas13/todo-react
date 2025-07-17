@@ -19,7 +19,7 @@ const Todo = () => {
     setTodoList((prev) => [...prev, newTodo]);
     inputRef.current.value = '';
     axios.post('http://localhost:3000/add', {todo: newTodo})
-    .then(result => console.log(result))
+    .then(result => console.log("Result: ", result.data))
     .catch(error => console.log("Error: ", error))
   };
 
