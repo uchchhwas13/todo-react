@@ -8,20 +8,28 @@ const Todo = () => {
 
   const add = () => {
     const inputText = inputRef.current.value.trim();
-    if(inputText === "") return;
+    if (inputText === '') return;
     const newTodo = {
-        id: Date.now(),
-        text: inputText,
-        isComplete: false,
-    }
-    setTodoList((prev)=> [...prev, newTodo]);
+      id: Date.now(),
+      text: inputText,
+      isComplete: false,
+    };
+    setTodoList((prev) => [...prev, newTodo]);
     inputRef.current.value = '';
   };
 
   const deleteTodoItem = (id) => {
-    setTodoList((prevTodos)=>{
-        return prevTodos.filter((todo) => todo.id !== id)
-    })
+    setTodoList((prevTodos) => {
+      return prevTodos.filter((todo) => todo.id !== id);
+    });
+  };
+
+  const updateCompletionStatus = (id) => {
+    setTodoList((prevTodos) =>
+      prevTodos.map((todo) =>
+        todo.id === id ? { ...todo, isComplete: !todo.isComplete } : todo
+      )
+    );
   };
 
   const renderHeader = () => (
@@ -61,8 +69,15 @@ const Todo = () => {
       {renderHeader()}
       {renderInputSection()}
       <div>
-        {todoList.map((item)=>{
-            return <TodoItem key={item.id} item={item} deleteTodoItem={deleteTodoItem}></TodoItem>
+        {todoList.map((item) => {
+          return (
+            <TodoItem
+              key={item.id}
+              item={item}
+              deleteTodoItem={deleteTodoItem}
+              updateCompletionStatus={updateCompletionStatus}
+            ></TodoItem>
+          );
         })}
       </div>
     </div>
