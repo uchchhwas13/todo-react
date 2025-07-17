@@ -1,10 +1,11 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import todo_icon from '../assets/todo_icon.png';
 import TodoItem from './TodoItem';
 
 const Todo = () => {
   const inputRef = useRef();
-  const [todoList, setTodoList] = useState([]);
+  const storedTodoList = JSON.parse(localStorage.getItem("todos")) || [];
+  const [todoList, setTodoList] = useState(storedTodoList);
 
   const add = () => {
     const inputText = inputRef.current.value.trim();
@@ -31,6 +32,10 @@ const Todo = () => {
       )
     );
   };
+
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todoList));
+  },[todoList]);
 
   const renderHeader = () => (
     <div className="flex items-center mt-7 gap-2">
