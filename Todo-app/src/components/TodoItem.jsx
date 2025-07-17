@@ -50,14 +50,15 @@ const TodoItem = ({
         if (e.key === 'Enter') handleSave();
         if (e.key === 'Escape') handleCancel();
       }}
-      className="ml-4 text-[17px] border border-gray-300 rounded px-2 py-1 flex-1"
+      className="ml-4 text-[17px] border border-gray-300 rounded px-2 py-1 flex-1 overflow-x-auto"
+      style={{ maxWidth: '100%' }}
       autoFocus
     />
   );
 
   const renderStaticTitle = () => (
     <p
-      className={`text-slate-700 ml-4 text-[17px] decoration-slate-500 ${
+      className={`text-slate-700 ml-4 text-[17px] decoration-slate-500 break-words ${
         item.isComplete ? 'line-through' : ''
       }`}
     >
