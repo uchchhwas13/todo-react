@@ -1,4 +1,3 @@
-import React from 'react';
 import todo_icon from '../assets/todo_icon.png';
 
 const TodoHeader = () => (

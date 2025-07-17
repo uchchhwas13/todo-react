@@ -1,5 +1,3 @@
-import React from 'react';
-
 const TodoInputSection = ({ inputRef, onAdd }) => (
   <div className="flex items-center my-7 bg-gray-200 rounded-full">
     <input
