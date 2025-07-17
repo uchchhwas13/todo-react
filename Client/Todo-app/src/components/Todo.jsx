@@ -19,9 +19,10 @@ const Todo = () => {
     //Updating the UI immediately after user taps on add button
     setTodoList((prev) => [...prev, newTodo]);
     inputRef.current.value = '';
-    axios.post('http://localhost:3000/add', {todo: newTodo})
-    .then(result => console.log("Result: ", result.data))
-    .catch(error => console.log("Error: ", error))
+    axios
+      .post('http://localhost:3000/add', { todo: newTodo })
+      .then((result) => console.log('Result: ', result.data))
+      .catch((error) => console.log('Error: ', error));
   };
 
   const deleteTodoItem = (id) => {
@@ -40,23 +41,32 @@ const Todo = () => {
 
   useEffect(() => {
     //localStorage.setItem("todos", JSON.stringify(todoList));
-  },[todoList]);
+  }, [todoList]);
 
-  const updateTodoText = (id, newText) => {
+  const updateTodoItem = (modifiedTodo) => {
     setTodoList((prevTodos) =>
-      prevTodos.map((todo) => (todo.id === id ? { ...todo, text: newText } : todo))
+      prevTodos.map((todo) =>
+        todo.id === modifiedTodo.id ? modifiedTodo : todo
+      )
     );
+    console.log("ModifiedTodo id", modifiedTodo.id)
+    axios
+      .put(`http://localhost:3000/update/${modifiedTodo.id}`, {todo:modifiedTodo})
+      .then((res) => console.log('Update success:', res.data))
+      .catch((err) => {
+        console.error('Update failed:', err);
+      });
   };
 
   useEffect(() => {
-    axios.get('http://localhost:3000/todoItems')
-    .then(reseult => {
-      console.log("Received todos: ", reseult.data.todoItems);
-      setTodoList(reseult.data.todoItems);
-    })
-    .catch(error => console.log(error))
-  },[])
-
+    axios
+      .get('http://localhost:3000/todoItems')
+      .then((reseult) => {
+        console.log('Received todos: ', reseult.data.todoItems);
+        setTodoList(reseult.data.todoItems);
+      })
+      .catch((error) => console.log(error));
+  }, []);
 
   const renderHeader = () => (
     <div className="flex items-center mt-7 gap-2">
@@ -102,7 +112,7 @@ const Todo = () => {
               item={item}
               deleteTodoItem={deleteTodoItem}
               updateCompletionStatus={updateCompletionStatus}
-              updateTodoText={updateTodoText}
+              updateTodoItem={updateTodoItem}
             ></TodoItem>
           );
         })}

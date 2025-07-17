@@ -8,7 +8,7 @@ const TodoItem = ({
   item,
   deleteTodoItem,
   updateCompletionStatus,
-  updateTodoText,
+  updateTodoItem,
 }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedText, setEditedText] = useState(item.text);
@@ -22,7 +22,8 @@ const TodoItem = ({
   const handleSave = () => {
     const trimmedText = editedText.trim();
     if (trimmedText === '') return;
-    updateTodoText(item.id, trimmedText);
+    item.text = trimmedText;
+    updateTodoItem(item);
     setIsEditing(false);
   };
 
