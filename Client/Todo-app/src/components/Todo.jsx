@@ -31,18 +31,6 @@ const Todo = () => {
     });
   };
 
-  const updateCompletionStatus = (id) => {
-    setTodoList((prevTodos) =>
-      prevTodos.map((todo) =>
-        todo.id === id ? { ...todo, isComplete: !todo.isComplete } : todo
-      )
-    );
-  };
-
-  useEffect(() => {
-    //localStorage.setItem("todos", JSON.stringify(todoList));
-  }, [todoList]);
-
   const updateTodoItem = (modifiedTodo) => {
     setTodoList((prevTodos) =>
       prevTodos.map((todo) =>
@@ -111,7 +99,6 @@ const Todo = () => {
               key={item.id}
               item={item}
               deleteTodoItem={deleteTodoItem}
-              updateCompletionStatus={updateCompletionStatus}
               updateTodoItem={updateTodoItem}
             ></TodoItem>
           );

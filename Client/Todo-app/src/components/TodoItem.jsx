@@ -7,13 +7,11 @@ import edit_icon from '../assets/edit.png';
 const TodoItem = ({
   item,
   deleteTodoItem,
-  updateCompletionStatus,
   updateTodoItem,
 }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedText, setEditedText] = useState(item.text);
 
-  const handleToggle = () => updateCompletionStatus(item.id);
   const handleDelete = () => deleteTodoItem(item.id);
   const handleEditClick = () => setIsEditing(true);
 
@@ -26,6 +24,11 @@ const TodoItem = ({
     updateTodoItem(item);
     setIsEditing(false);
   };
+
+  const handleToggle = () => {
+    item.isComplete = !item.isComplete
+    updateTodoItem(item);
+  }
 
   const handleCancel = () => {
     setEditedText(item.text);
