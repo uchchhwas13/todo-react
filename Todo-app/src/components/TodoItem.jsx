@@ -5,12 +5,12 @@ import delete_icon from '../assets/delete.png'
 
 
 
-const TodoItem = ({text}) => {
+const TodoItem = ({item}) => {
   return (
     <div className='flex items-center my-3 gap-2'>
       <div className='flex flex-1 items-center cursor-pointer'> 
         <img src={tick} alt="" className='w-7'/>
-        <p className='tex-slate-700 ml-4 text-[17px]'>{text}</p>
+        <p className='tex-slate-700 ml-4 text-[17px]'>{item.text}</p>
       </div>
       <img src={delete_icon} alt="" className='w-3.5 cursor-pointer'/>
     </div>
