@@ -1,116 +1,106 @@
 import React, { useEffect, useRef, useState } from 'react';
 import todo_icon from '../assets/todo_icon.png';
 import TodoItem from './TodoItem';
-import axios from 'axios';
+import {
+  fetchTodos,
+  addTodo,
+  deleteTodo,
+  updateTodo
+} from '../services/todoService';
 
 const Todo = () => {
   const inputRef = useRef();
-  //const storedTodoList = JSON.parse(localStorage.getItem("todos")) || [];
   const [todoList, setTodoList] = useState([]);
 
-  const add = () => {
+  const handleAdd = async () => {
     const inputText = inputRef.current.value.trim();
-    if (inputText === '') return;
+    if (!inputText) return;
+
     const newTodo = {
       id: Date.now(),
       text: inputText,
       isComplete: false,
     };
-    //Updating the UI immediately after user taps on add button
+
     setTodoList((prev) => [...prev, newTodo]);
     inputRef.current.value = '';
-    axios
-      .post('http://localhost:3000/add', { todo: newTodo })
-      .then((result) => console.log('Result: ', result.data))
-      .catch((error) => console.log('Error: ', error));
+
+    try {
+      await addTodo(newTodo);
+    } catch (error) {
+      console.error('Failed to add todo:', error);
+    }
   };
 
-  const deleteTodoItem = (id) => {
-    setTodoList((prevTodos) => {
-      return prevTodos.filter((todo) => todo.id !== id);
-    });
-    axios.delete(`http://localhost:3000/todos/${id}`)
-      .then((res) => console.log('Delete success:', res.data))
-      .catch((err) => {
-        console.error('Delete failed:', err);
-      });
+  const handleDelete = async (id) => {
+    setTodoList((prev) => prev.filter((todo) => todo.id !== id));
+    try {
+      await deleteTodo(id);
+    } catch (error) {
+      console.error('Delete failed:', error);
+    }
   };
 
-  const updateTodoItem = (modifiedTodo) => {
-    setTodoList((prevTodos) =>
-      prevTodos.map((todo) =>
-        todo.id === modifiedTodo.id ? modifiedTodo : todo
-      )
+  const handleUpdate = async (modifiedTodo) => {
+    setTodoList((prev) =>
+      prev.map((todo) => (todo.id === modifiedTodo.id ? modifiedTodo : todo))
     );
-    console.log("ModifiedTodo id", modifiedTodo.id)
-    axios
-      .put(`http://localhost:3000/update/${modifiedTodo.id}`, {todo:modifiedTodo})
-      .then((res) => console.log('Update success:', res.data))
-      .catch((err) => {
-        console.error('Update failed:', err);
-      });
+    try {
+      await updateTodo(modifiedTodo);
+    } catch (error) {
+      console.error('Update failed:', error);
+    }
   };
 
   useEffect(() => {
-    axios
-      .get('http://localhost:3000/todoItems')
-      .then((reseult) => {
-        console.log('Received todos: ', reseult.data.todoItems);
-        setTodoList(reseult.data.todoItems);
+    fetchTodos()
+      .then((res) => {
+        console.log('Fetched:', res.data.todoItems);
+        setTodoList(res.data.todoItems);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => console.error('Error fetching todos:', error));
   }, []);
 
-  const renderHeader = () => (
-    <div className="flex items-center mt-7 gap-2">
-      <img src={todo_icon} alt="To-Do icon" className="w-8" />
-      <h1 className="text-3xl font-semibold">To-DO List</h1>
+  return (
+    <div className="bg-white place-self-center w-11/12 max-w-md flex flex-col p-7 min-h-[550px] rounded-xl">
+      <Header />
+      <InputSection inputRef={inputRef} onAdd={handleAdd} />
+      <div>
+        {todoList.map((item) => (
+          <TodoItem
+            key={item.id}
+            item={item}
+            deleteTodoItem={handleDelete}
+            updateTodoItem={handleUpdate}
+          />
+        ))}
+      </div>
     </div>
   );
+};
 
-  const renderInputField = () => (
+const Header = () => (
+  <div className="flex items-center mt-7 gap-2">
+    <img src={todo_icon} alt="To-Do icon" className="w-8" />
+    <h1 className="text-3xl font-semibold">To-DO List</h1>
+  </div>
+);
+
+const InputSection = ({ inputRef, onAdd }) => (
+  <div className="flex items-center my-7 bg-gray-200 rounded-full">
     <input
       ref={inputRef}
       className="bg-transparent border-0 outline-none flex-1 h-14 p-6 pr-2 placeholder:text-slate-600"
       type="text"
       placeholder="Add your task"
     />
-  );
-
-  const renderAddButton = () => (
     <button
-      onClick={add}
+      onClick={onAdd}
       className="border-none rounded-full bg-orange-600 w-32 h-14 text-white text-lg font-medium cursor-pointer"
     >
       Add +
     </button>
-  );
-
-  const renderInputSection = () => (
-    <div className="flex items-center my-7 bg-gray-200 rounded-full">
-      {renderInputField()}
-      {renderAddButton()}
-    </div>
-  );
-
-  return (
-    <div className="bg-white place-self-center w-11/12 max-w-md flex flex-col p-7 min-h-[550px] rounded-xl">
-      {renderHeader()}
-      {renderInputSection()}
-      <div>
-        {todoList.map((item) => {
-          return (
-            <TodoItem
-              key={item.id}
-              item={item}
-              deleteTodoItem={deleteTodoItem}
-              updateTodoItem={updateTodoItem}
-            ></TodoItem>
-          );
-        })}
-      </div>
-    </div>
-  );
-};
+  </div>
+);
 
 export default Todo;
