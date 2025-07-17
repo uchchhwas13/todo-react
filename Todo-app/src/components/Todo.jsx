@@ -5,6 +5,7 @@ import TodoItem from './TodoItem';
 const Todo = () => {
   const inputRef = useRef();
   const [todoList, setTodoList] = useState([]);
+
   const add = () => {
     const inputText = inputRef.current.value.trim();
     if(inputText === "") return;
@@ -15,6 +16,12 @@ const Todo = () => {
     }
     setTodoList((prev)=> [...prev, newTodo]);
     inputRef.current.value = '';
+  };
+
+  const deleteTodoItem = (id) => {
+    setTodoList((prevTodos)=>{
+        return prevTodos.filter((todo) => todo.id !== id)
+    })
   };
 
   const renderHeader = () => (
@@ -55,7 +62,7 @@ const Todo = () => {
       {renderInputSection()}
       <div>
         {todoList.map((item)=>{
-            return <TodoItem key={item.id} item={item}></TodoItem>
+            return <TodoItem key={item.id} item={item} deleteTodoItem={deleteTodoItem}></TodoItem>
         })}
       </div>
     </div>
