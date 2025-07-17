@@ -2,6 +2,7 @@ import React from 'react';
 import tick from '../assets/tick.png';
 import not_tick from '../assets/not_tick.png';
 import delete_icon from '../assets/delete.png';
+import edit_icon from '../assets/edit.png'
 
 const TodoItem = ({ item, deleteTodoItem, updateCompletionStatus }) => {
   const handleToggle = () => updateCompletionStatus(item.id);
@@ -35,12 +36,22 @@ const TodoItem = ({ item, deleteTodoItem, updateCompletionStatus }) => {
     />
   );
 
+  const renderEditButton = () => (
+    <img
+      src={edit_icon}
+      //onClick={}
+      alt="Delete"
+      className="w-3.5 cursor-pointer"
+    />
+  );
+
   const renderTodoItem = () => (
     <div className="flex items-center my-3 gap-2">
       <div className="flex flex-1 items-center">
         {renderStatusIcon()}
         {renderTodoTitle()}
       </div>
+      {renderEditButton()}
       {renderDeleteButton()}
     </div>
   );
