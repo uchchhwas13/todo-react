@@ -29,6 +29,11 @@ const Todo = () => {
     setTodoList((prevTodos) => {
       return prevTodos.filter((todo) => todo.id !== id);
     });
+    axios.delete(`http://localhost:3000/todos/${id}`)
+      .then((res) => console.log('Delete success:', res.data))
+      .catch((err) => {
+        console.error('Delete failed:', err);
+      });
   };
 
   const updateTodoItem = (modifiedTodo) => {
