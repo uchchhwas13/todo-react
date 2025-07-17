@@ -5,8 +5,8 @@ import axios from 'axios';
 
 const Todo = () => {
   const inputRef = useRef();
-  const storedTodoList = JSON.parse(localStorage.getItem("todos")) || [];
-  const [todoList, setTodoList] = useState(storedTodoList);
+  //const storedTodoList = JSON.parse(localStorage.getItem("todos")) || [];
+  const [todoList, setTodoList] = useState([]);
 
   const add = () => {
     const inputText = inputRef.current.value.trim();
@@ -16,7 +16,7 @@ const Todo = () => {
       text: inputText,
       isComplete: false,
     };
-    setTodoList((prev) => [...prev, newTodo]);
+    //setTodoList((prev) => [...prev, newTodo]);
     inputRef.current.value = '';
     axios.post('http://localhost:3000/add', {todo: newTodo})
     .then(result => console.log("Result: ", result.data))
@@ -38,7 +38,7 @@ const Todo = () => {
   };
 
   useEffect(() => {
-    localStorage.setItem("todos", JSON.stringify(todoList));
+    //localStorage.setItem("todos", JSON.stringify(todoList));
   },[todoList]);
 
   const updateTodoText = (id, newText) => {
@@ -46,6 +46,15 @@ const Todo = () => {
       prevTodos.map((todo) => (todo.id === id ? { ...todo, text: newText } : todo))
     );
   };
+
+  useEffect(() => {
+    axios.get('http://localhost:3000/todoItems')
+    .then(reseult => {
+      console.log("Received todos: ", reseult.data.todoItems);
+      setTodoList(reseult.data.todoItems);
+    })
+    .catch(error => console.log(error))
+  },[])
 
 
   const renderHeader = () => (
