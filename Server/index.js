@@ -8,6 +8,9 @@ const port = 3000;
 app.use(cors())
 app.use(express.json())
 
+mongoose.connect('mongodb://localhost:27017/todo')
+        .then(() => console.log('Connected to MongoDB'));
+
 app.post('/add', (req,res) => {
     const todoItem = req.body.todo;
     console.log("Received request body: ", JSON.stringify(todoItem))
