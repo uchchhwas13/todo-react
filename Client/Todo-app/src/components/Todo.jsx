@@ -16,7 +16,8 @@ const Todo = () => {
       text: inputText,
       isComplete: false,
     };
-    //setTodoList((prev) => [...prev, newTodo]);
+    //Updating the UI immediately after user taps on add button
+    setTodoList((prev) => [...prev, newTodo]);
     inputRef.current.value = '';
     axios.post('http://localhost:3000/add', {todo: newTodo})
     .then(result => console.log("Result: ", result.data))
