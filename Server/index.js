@@ -51,6 +51,19 @@ app.put('/update/:id', async (req, res) => {
   }
 });
 
+app.delete('/todos/:id', async (req, res) => {
+  try {
+    const deletedTodo = await ToDoModel.findOneAndDelete({ id: req.params.id }); // or `_id` if you're using MongoDB IDs
+    if (!deletedTodo) {
+      return res.status(404).json({ error: 'Todo not found' });
+    }
+    return res.status(200).json({ message: 'Todo deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting todo:', error);
+    return res.status(500).json({ error: 'Failed to delete todo item' });
+  }
+});
+
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
