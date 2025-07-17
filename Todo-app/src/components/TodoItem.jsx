@@ -15,7 +15,13 @@ const TodoItem = ({ item, deleteTodoItem, updateCompletionStatus }) => {
           alt=""
           className="w-7"
         />
-        <p className="tex-slate-700 ml-4 text-[17px]">{item.text}</p>
+        <p
+          className={`tex-slate-700 ml-4 text-[17px] decoration-slate-500 ${
+            item.isComplete ? 'line-through' : ''
+          }`}
+        >
+          {item.text}
+        </p>
       </div>
       <img
         src={delete_icon}
