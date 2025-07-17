@@ -1,13 +1,20 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import todo_icon from '../assets/todo_icon.png';
 import TodoItem from './TodoItem';
 
 const Todo = () => {
   const inputRef = useRef();
-
+  const [todoList, setTodoList] = useState([]);
   const add = () => {
     const inputText = inputRef.current.value.trim();
-    console.log(inputText);
+    if(inputText === "") return;
+    const newTodo = {
+        id: Date.now(),
+        text: inputText,
+        isComplete: false,
+    }
+    setTodoList((prev)=> [...prev, newTodo]);
+    inputRef.current.value = '';
   };
 
   const renderHeader = () => (
