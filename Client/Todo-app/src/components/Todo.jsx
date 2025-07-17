@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import todo_icon from '../assets/todo_icon.png';
 import TodoItem from './TodoItem';
+import axios from 'axios';
 
 const Todo = () => {
   const inputRef = useRef();
@@ -17,6 +18,9 @@ const Todo = () => {
     };
     setTodoList((prev) => [...prev, newTodo]);
     inputRef.current.value = '';
+    axios.post('http://localhost:3000/add', {todo: newTodo})
+    .then(result => console.log(result))
+    .catch(error => console.log("Error: ", error))
   };
 
   const deleteTodoItem = (id) => {
