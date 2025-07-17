@@ -1,6 +1,8 @@
+// components/Todo.jsx
 import React, { useEffect, useRef, useState } from 'react';
-import todo_icon from '../assets/todo_icon.png';
 import TodoItem from './TodoItem';
+import TodoHeader from './TodoHeader';
+import TodoInputSection from './TodoInputSection';
 import {
   fetchTodos,
   addTodo,
@@ -55,7 +57,6 @@ const Todo = () => {
   useEffect(() => {
     fetchTodos()
       .then((res) => {
-        console.log('Fetched:', res.data.todoItems);
         setTodoList(res.data.todoItems);
       })
       .catch((error) => console.error('Error fetching todos:', error));
@@ -63,8 +64,8 @@ const Todo = () => {
 
   return (
     <div className="bg-white place-self-center w-11/12 max-w-md flex flex-col p-7 min-h-[550px] rounded-xl">
-      <Header />
-      <InputSection inputRef={inputRef} onAdd={handleAdd} />
+      <TodoHeader />
+      <TodoInputSection inputRef={inputRef} onAdd={handleAdd} />
       <div>
         {todoList.map((item) => (
           <TodoItem
@@ -78,29 +79,5 @@ const Todo = () => {
     </div>
   );
 };
-
-const Header = () => (
-  <div className="flex items-center mt-7 gap-2">
-    <img src={todo_icon} alt="To-Do icon" className="w-8" />
-    <h1 className="text-3xl font-semibold">To-DO List</h1>
-  </div>
-);
-
-const InputSection = ({ inputRef, onAdd }) => (
-  <div className="flex items-center my-7 bg-gray-200 rounded-full">
-    <input
-      ref={inputRef}
-      className="bg-transparent border-0 outline-none flex-1 h-14 p-6 pr-2 placeholder:text-slate-600"
-      type="text"
-      placeholder="Add your task"
-    />
-    <button
-      onClick={onAdd}
-      className="border-none rounded-full bg-orange-600 w-32 h-14 text-white text-lg font-medium cursor-pointer"
-    >
-      Add +
-    </button>
-  </div>
-);
 
 export default Todo;
