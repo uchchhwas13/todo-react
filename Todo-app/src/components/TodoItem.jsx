@@ -36,17 +36,16 @@ const TodoItem = ({ item, deleteTodoItem, updateCompletionStatus }) => {
   );
 
   const renderTodoItem = () => (
-  <div className="flex items-center my-3 gap-2">
-    <div className="flex flex-1 items-center">
-      {renderStatusIcon()}
-      {renderTodoTitle()}
+    <div className="flex items-center my-3 gap-2">
+      <div className="flex flex-1 items-center">
+        {renderStatusIcon()}
+        {renderTodoTitle()}
+      </div>
+      {renderDeleteButton()}
     </div>
-    {renderDeleteButton()}
-  </div>
-);
+  );
 
-return <>{renderTodoItem()}</>;
-
+  return <>{renderTodoItem()}</>;
 };
 
 export default TodoItem;
