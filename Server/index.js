@@ -2,15 +2,14 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const ToDoModel = require('./Models/Todo');
+const connectDB = require('./Config/db');
 const app = express();
 const port = 3000;
 
 app.use(cors());
 app.use(express.json());
 
-mongoose
-  .connect('mongodb://localhost:27017/todoDB')
-  .then(() => console.log('Connected to MongoDB'));
+connectDB();
 
 app.get('/todos', async (req, res) => {
   try {
