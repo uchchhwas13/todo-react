@@ -12,7 +12,7 @@ mongoose
   .connect('mongodb://localhost:27017/todoDB')
   .then(() => console.log('Connected to MongoDB'));
 
-app.get('/todoItems', async (req, res) => {
+app.get('/todos', async (req, res) => {
   try {
     const todoItems = await ToDoModel.find({});
     console.log('Fetched items:', todoItems);
