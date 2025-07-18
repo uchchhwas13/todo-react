@@ -34,7 +34,7 @@ app.post('/add', async (req, res) => {
   return res.status(201).json({ message: 'Todo added successfully' });
 });
 
-app.put('/update/:id', async (req, res) => {
+app.put('/todos/:id', async (req, res) => {
   console.log("Update request received for id,", req.params.id);
   const todoItem = req.body.todo;
   try {
