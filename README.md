@@ -1,6 +1,6 @@
 # TODO Application
 
-A full-stack TODO application built with React frontend and Node.js backend.
+A full-stack TODO application built with React frontend and Express.js backend.
 
 ## Project Structure
 
@@ -47,10 +47,8 @@ If you need to run them separately:
 - `npm run server` - Start only the backend server
 - `npm run client` - Start only the frontend development server
 - `npm run install-all` - Install dependencies for all parts of the application
-- `npm run build` - Build the React application for production
 
 ## Technologies Used
 
-- **Frontend**: React, Vite, Tailwind CSS, Axios
+- **Frontend**: React, Vite, Tailwind CSS
 - **Backend**: Node.js, Express, MongoDB, Mongoose
-- **Development**: Concurrently (for running multiple commands) 

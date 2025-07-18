@@ -57,7 +57,7 @@ const Todo = () => {
   useEffect(() => {
     fetchTodos()
       .then((res) => {
-        setTodoList(res.data.todoItems);
+        setTodoList(res.data.todos);
       })
       .catch((error) => console.error('Error fetching todos:', error));
   }, []);
