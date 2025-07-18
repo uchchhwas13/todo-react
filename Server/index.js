@@ -12,7 +12,7 @@ app.use(express.json());
 
 connectDB();
 
-app.use('/', todoRoutes);
+app.use('/todos', todoRoutes);
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
