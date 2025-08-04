@@ -1,7 +1,8 @@
 import express from 'express';
-const cors = require('cors');
-const connectDB = require('./Config/db');
-const todoRoutes = require('./Routes/todoRoutes');
+import cors from 'cors';
+import todoRoutes from './Routes/todoRoutes';
+import connectDB from './Config/db';
+
 const app = express();
 const port = 3000;
 
