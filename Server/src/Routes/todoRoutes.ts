@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { validateBody } from '../Middlewares/validateBody';
-import { addTodoSchema } from '../Validators/toDoValidators';
+import { addTodoSchema, updateTodoSchema } from '../Validators/toDoValidators';
 import {
   getTodos,
   addTodo,
@@ -11,7 +11,7 @@ import {
 const router = Router();
 router.get('/', getTodos);
 router.post('/', validateBody(addTodoSchema), addTodo);
-router.put('/:id', updateTodo);
+router.put('/:id', validateBody(updateTodoSchema), updateTodo);
 router.delete('/:id', deleteTodo);
 
 export default router;

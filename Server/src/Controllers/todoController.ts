@@ -1,9 +1,10 @@
 import type { Request, Response } from 'express';
 import { ToDoModel } from '../Models/Todo';
 import { z } from 'zod';
-import { addTodoSchema } from '../Validators/toDoValidators';
+import { addTodoSchema, updateTodoSchema } from '../Validators/toDoValidators';
 
 type AddTodoRequestBody = z.infer<typeof addTodoSchema>;
+type UpdateTodoRequestBody = z.infer<typeof updateTodoSchema>;
 
 export const getTodos = async (req: Request, res: Response) => {
   try {
@@ -29,7 +30,10 @@ export const addTodo = async (
   }
 };
 
-export const updateTodo = async (req: Request, res: Response) => {
+export const updateTodo = async (
+  req: Request<{ id: string }, {}, UpdateTodoRequestBody>,
+  res: Response
+) => {
   const todo = req.body.todo;
   try {
     const updated = await ToDoModel.findOneAndUpdate(
