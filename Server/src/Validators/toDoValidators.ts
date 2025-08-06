@@ -11,5 +11,12 @@ export const addTodoSchema = z.object({
 });
 
 export const updateTodoSchema = z.object({
-  todo: todoSchema,
+  todo: z
+    .object({
+      text: z.string().optional(),
+      isComplete: z.boolean().optional(),
+    })
+    .refine((data) => Object.keys(data).length > 0, {
+      message: 'At least one field must be provided for update',
+    }),
 });
