@@ -53,7 +53,10 @@ export const updateTodo = async (
   }
 };
 
-export const deleteTodo = async (req: Request, res: Response) => {
+export const deleteTodo = async (
+  req: Request<{ id: string }, {}, {}>,
+  res: Response
+) => {
   try {
     const deleted = await ToDoModel.findOneAndDelete({ id: req.params.id });
     if (!deleted) return res.status(404).json({ error: 'Todo not found' });
