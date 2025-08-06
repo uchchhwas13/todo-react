@@ -1,5 +1,9 @@
 import type { Request, Response } from 'express';
-import { ToDoModel, ITodo } from '../Models/Todo';
+import { ToDoModel } from '../Models/Todo';
+import { z } from 'zod';
+import { addTodoSchema } from '../Validators/toDoValidators';
+
+type AddTodoRequestBody = z.infer<typeof addTodoSchema>;
 
 export const getTodos = async (req: Request, res: Response) => {
   try {
@@ -11,7 +15,10 @@ export const getTodos = async (req: Request, res: Response) => {
   }
 };
 
-export const addTodo = async (req: Request, res: Response) => {
+export const addTodo = async (
+  req: Request<{}, {}, AddTodoRequestBody>,
+  res: Response
+): Promise<Response> => {
   const { id, text, isComplete } = req.body.todo;
   try {
     const result = await ToDoModel.create({ id, text, isComplete });
