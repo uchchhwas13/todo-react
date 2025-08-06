@@ -1,4 +1,6 @@
 import { Router } from 'express';
+import { validateBody } from '../Middlewares/validateBody';
+import { addTodoSchema } from '../Validators/toDoValidators';
 import {
   getTodos,
   addTodo,
@@ -8,7 +10,7 @@ import {
 
 const router = Router();
 router.get('/', getTodos);
-router.post('/', addTodo);
+router.post('/', validateBody(addTodoSchema), addTodo);
 router.put('/:id', updateTodo);
 router.delete('/:id', deleteTodo);
 
