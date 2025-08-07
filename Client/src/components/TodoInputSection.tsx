@@ -1,6 +1,12 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 
-const TodoInputSection = ({ onAdd: addToDoItem }) => {
+type TodoInputSectionProps = {
+  onAdd: (inputText: string) => void;
+};
+
+const TodoInputSection = ({
+  onAdd: addToDoItem,
+}: TodoInputSectionProps): React.JSX.Element => {
   const [inputValue, setInputValue] = useState('');
 
   const handleAdd = () => {
