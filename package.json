@@ -5,15 +5,21 @@
   "main": "index.js",
   "scripts": {
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "server": "cd Server && npm start",
+    "server": "cd Server && npm run dev",
     "client": "cd Client && npm run dev",
     "install-all": "npm install && cd Server && npm install && cd ../Client && npm install",
     "build": "cd Client && npm run build"
   },
-  "keywords": ["todo", "react", "nodejs", "express", "mongodb"],
+  "keywords": [
+    "todo",
+    "react",
+    "nodejs",
+    "express",
+    "mongodb"
+  ],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "concurrently": "^8.2.2"
   }
-} 
+}
