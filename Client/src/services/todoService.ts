@@ -2,16 +2,7 @@ import axios from 'axios';
 
 const API_BASE = 'http://localhost:3000';
 
-export type Todo = {
-  id: string;
-  text: string;
-  isComplete: boolean;
-};
-
-type ApiResponse<T> = {
-  data?: T;
-  error?: string;
-};
+import { Todo, ApiResponse } from '../type/type';
 
 export const fetchTodos = async (): Promise<ApiResponse<Todo[]>> => {
   try {
