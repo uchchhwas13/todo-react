@@ -15,24 +15,29 @@ import {
 const Todo = (): React.JSX.Element => {
   const [todoList, setTodoList] = useState<TodoModel[]>([]);
 
-  const handleAdd = async (inputText: string) => {
-    console.log('Adding todo:', inputText);
-    const newTodo = {
-      id: Date.now().toString(),
-      text: inputText,
-      isComplete: false,
-    };
+  const handleAdd = async (text: string) => {
+    const tempId = Date.now().toString();
+    const tempTodo: TodoModel = { _id: tempId, text, isComplete: false };
+    setTodoList((prev) => [...prev, tempTodo]);
 
-    setTodoList((prev) => [...prev, newTodo]);
     try {
-      await addTodo(newTodo);
+      const response = await addTodo({ text, isComplete: false });
+
+      if (response.data) {
+        const realTodo = response.data;
+        setTodoList((prev) =>
+          prev.map((todo) => (todo._id === tempId ? realTodo : todo))
+        );
+        return;
+      }
     } catch (error) {
-      console.error('Failed to add todo:', error);
+      console.error('Add failed', error);
     }
+    setTodoList((prev) => prev.filter((todo) => todo._id !== tempId));
   };
 
   const handleDelete = async (id: string) => {
-    setTodoList((prev) => prev.filter((todo) => todo.id !== id));
+    setTodoList((prev) => prev.filter((todo) => todo._id !== id));
     try {
       await deleteTodo(id);
     } catch (error) {
@@ -42,7 +47,7 @@ const Todo = (): React.JSX.Element => {
 
   const handleUpdate = async (modifiedTodo: TodoModel) => {
     setTodoList((prev) =>
-      prev.map((todo) => (todo.id === modifiedTodo.id ? modifiedTodo : todo))
+      prev.map((todo) => (todo._id === modifiedTodo._id ? modifiedTodo : todo))
     );
     try {
       await updateTodo(modifiedTodo);
@@ -75,7 +80,7 @@ const Todo = (): React.JSX.Element => {
       <div>
         {todoList.map((item) => (
           <TodoItem
-            key={item.id}
+            key={item._id}
             item={item}
             deleteTodoItem={handleDelete}
             updateTodoItem={handleUpdate}

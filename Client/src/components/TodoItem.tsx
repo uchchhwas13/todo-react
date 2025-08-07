@@ -19,7 +19,7 @@ const TodoItem = ({
   const [isEditing, setIsEditing] = useState(false);
   const [editedText, setEditedText] = useState(item.text);
 
-  const handleDelete = () => deleteTodoItem(item.id);
+  const handleDelete = () => deleteTodoItem(item._id);
   const handleEditClick = () => setIsEditing(true);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) =>

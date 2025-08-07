@@ -1,5 +1,5 @@
 export type TodoModel = {
-  id: string;
+  _id: string;
   text: string;
   isComplete: boolean;
 };

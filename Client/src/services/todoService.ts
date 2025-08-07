@@ -15,8 +15,10 @@ export const fetchTodos = async (): Promise<ApiResponse<TodoModel[]>> => {
   }
 };
 
+type AddTodoRequest = { text: string; isComplete: boolean };
+
 export const addTodo = async (
-  todo: TodoModel
+  todo: AddTodoRequest
 ): Promise<ApiResponse<TodoModel>> => {
   try {
     const response = await axios.post<{ message: string; result: TodoModel }>(
@@ -47,7 +49,7 @@ export const updateTodo = async (
     const response = await axios.put<{
       message: string;
       updatedTodo: TodoModel;
-    }>(`${API_BASE}/todos/${todo.id}`, { todo });
+    }>(`${API_BASE}/todos/${todo._id}`, { todo });
     return { data: response.data.updatedTodo };
   } catch (error) {
     return { error: extractErrorMessage(error) };
