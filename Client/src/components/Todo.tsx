@@ -46,13 +46,21 @@ const Todo = (): React.JSX.Element => {
   };
 
   const handleUpdate = async (modifiedTodo: TodoModel) => {
+    const previousTodo = todoList.find((todo) => todo._id === modifiedTodo._id);
     setTodoList((prev) =>
       prev.map((todo) => (todo._id === modifiedTodo._id ? modifiedTodo : todo))
     );
-    try {
-      await updateTodo(modifiedTodo);
-    } catch (error) {
-      console.error('Update failed:', error);
+
+    const response = await updateTodo(modifiedTodo);
+    if (response.error) {
+      console.log('Update failed:', response.error);
+      if (previousTodo) {
+        setTodoList((prev) =>
+          prev.map((todo) =>
+            todo._id === previousTodo._id ? previousTodo : todo
+          )
+        );
+      }
     }
   };
 
@@ -60,7 +68,6 @@ const Todo = (): React.JSX.Element => {
     fetchTodos()
       .then((response) => {
         if (response.error) {
-          // show error in UI
           console.error(response.error);
         } else {
           setTodoList(response.data || []);
@@ -68,7 +75,6 @@ const Todo = (): React.JSX.Element => {
         }
       })
       .catch((error) => {
-        // handle unexpected errors (network issues, etc)
         console.error('Unexpected error:', error);
       });
   }, []);
@@ -81,7 +87,7 @@ const Todo = (): React.JSX.Element => {
         {todoList.map((item) => (
           <TodoItem
             key={item._id}
-            item={item}
+            item={{ ...item }}
             deleteTodoItem={handleDelete}
             updateTodoItem={handleUpdate}
           />
