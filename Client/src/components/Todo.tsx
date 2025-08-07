@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import TodoItem from './TodoItem';
 import TodoHeader from './TodoHeader';
 import TodoInputSection from './TodoInputSection';
+import { TodoModel } from '../type/type';
+
 import {
   fetchTodos,
   addTodo,
@@ -11,9 +13,9 @@ import {
 } from '../services/todoService';
 
 const Todo = () => {
-  const [todoList, setTodoList] = useState([]);
+  const [todoList, setTodoList] = useState<TodoModel[]>([]);
 
-  const handleAdd = async (inputText) => {
+  const handleAdd = async (inputText: string) => {
     console.log('Adding todo:', inputText);
     const newTodo = {
       id: Date.now().toString(),
@@ -29,7 +31,7 @@ const Todo = () => {
     }
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (id: string) => {
     setTodoList((prev) => prev.filter((todo) => todo.id !== id));
     try {
       await deleteTodo(id);
@@ -38,7 +40,7 @@ const Todo = () => {
     }
   };
 
-  const handleUpdate = async (modifiedTodo) => {
+  const handleUpdate = async (modifiedTodo: TodoModel) => {
     setTodoList((prev) =>
       prev.map((todo) => (todo.id === modifiedTodo.id ? modifiedTodo : todo))
     );
@@ -56,7 +58,7 @@ const Todo = () => {
           // show error in UI
           console.error(response.error);
         } else {
-          setTodoList(response.data);
+          setTodoList(response.data || []);
           console.log(response.data);
         }
       })
