@@ -2,20 +2,24 @@ import axios from 'axios';
 
 const API_BASE = 'http://localhost:3000';
 
-import { Todo, ApiResponse } from '../type/type';
+import { TodoModel, ApiResponse } from '../type/type';
 
-export const fetchTodos = async (): Promise<ApiResponse<Todo[]>> => {
+export const fetchTodos = async (): Promise<ApiResponse<TodoModel[]>> => {
   try {
-    const response = await axios.get<{ todos: Todo[] }>(`${API_BASE}/todos`);
+    const response = await axios.get<{ todos: TodoModel[] }>(
+      `${API_BASE}/todos`
+    );
     return { data: response.data.todos };
   } catch (error) {
     return { error: extractErrorMessage(error) };
   }
 };
 
-export const addTodo = async (todo: Todo): Promise<ApiResponse<Todo>> => {
+export const addTodo = async (
+  todo: TodoModel
+): Promise<ApiResponse<TodoModel>> => {
   try {
-    const response = await axios.post<{ message: string; result: Todo }>(
+    const response = await axios.post<{ message: string; result: TodoModel }>(
       `${API_BASE}/todos`,
       { todo }
     );
@@ -36,12 +40,14 @@ export const deleteTodo = async (id: string): Promise<ApiResponse<string>> => {
   }
 };
 
-export const updateTodo = async (todo: Todo): Promise<ApiResponse<Todo>> => {
+export const updateTodo = async (
+  todo: TodoModel
+): Promise<ApiResponse<TodoModel>> => {
   try {
-    const response = await axios.put<{ message: string; updatedTodo: Todo }>(
-      `${API_BASE}/todos/${todo.id}`,
-      { todo }
-    );
+    const response = await axios.put<{
+      message: string;
+      updatedTodo: TodoModel;
+    }>(`${API_BASE}/todos/${todo.id}`, { todo });
     return { data: response.data.updatedTodo };
   } catch (error) {
     return { error: extractErrorMessage(error) };
