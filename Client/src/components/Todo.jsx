@@ -7,26 +7,21 @@ import {
   fetchTodos,
   addTodo,
   deleteTodo,
-  updateTodo
+  updateTodo,
 } from '../services/todoService';
 
 const Todo = () => {
-  const inputRef = useRef();
   const [todoList, setTodoList] = useState([]);
 
-  const handleAdd = async () => {
-    const inputText = inputRef.current.value.trim();
-    if (!inputText) return;
-
+  const handleAdd = async (inputText) => {
+    console.log('Adding todo:', inputText);
     const newTodo = {
-      id: Date.now(),
+      id: Date.now().toString(),
       text: inputText,
       isComplete: false,
     };
 
     setTodoList((prev) => [...prev, newTodo]);
-    inputRef.current.value = '';
-
     try {
       await addTodo(newTodo);
     } catch (error) {
@@ -56,16 +51,25 @@ const Todo = () => {
 
   useEffect(() => {
     fetchTodos()
-      .then((res) => {
-        setTodoList(res.data.todos);
+      .then((response) => {
+        if (response.error) {
+          // show error in UI
+          console.error(response.error);
+        } else {
+          setTodoList(response.data);
+          console.log(response.data);
+        }
       })
-      .catch((error) => console.error('Error fetching todos:', error));
+      .catch((error) => {
+        // handle unexpected errors (network issues, etc)
+        console.error('Unexpected error:', error);
+      });
   }, []);
 
   return (
     <div className="bg-white place-self-center w-11/12 max-w-md flex flex-col p-7 min-h-[550px] rounded-xl">
       <TodoHeader />
-      <TodoInputSection inputRef={inputRef} onAdd={handleAdd} />
+      <TodoInputSection onAdd={handleAdd} />
       <div>
         {todoList.map((item) => (
           <TodoItem
