@@ -12,7 +12,7 @@ import {
   updateTodo,
 } from '../services/todoService';
 
-const Todo = () => {
+const Todo = (): React.JSX.Element => {
   const [todoList, setTodoList] = useState<TodoModel[]>([]);
 
   const handleAdd = async (inputText: string) => {

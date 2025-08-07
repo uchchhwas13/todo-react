@@ -11,7 +11,11 @@ type TodoItemProps = {
   updateTodoItem: (todo: TodoModel) => void;
 };
 
-const TodoItem = ({ item, deleteTodoItem, updateTodoItem }: TodoItemProps) => {
+const TodoItem = ({
+  item,
+  deleteTodoItem,
+  updateTodoItem,
+}: TodoItemProps): React.JSX.Element => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedText, setEditedText] = useState(item.text);
 
