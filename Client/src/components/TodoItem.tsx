@@ -3,19 +3,23 @@ import tick from '../assets/tick.png';
 import not_tick from '../assets/not_tick.png';
 import delete_icon from '../assets/delete.png';
 import edit_icon from '../assets/edit.png';
+import { TodoModel } from '../type/type';
 
-const TodoItem = ({
-  item,
-  deleteTodoItem,
-  updateTodoItem,
-}) => {
+type TodoItemProps = {
+  item: TodoModel;
+  deleteTodoItem: (id: string) => void;
+  updateTodoItem: (todo: TodoModel) => void;
+};
+
+const TodoItem = ({ item, deleteTodoItem, updateTodoItem }: TodoItemProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedText, setEditedText] = useState(item.text);
 
   const handleDelete = () => deleteTodoItem(item.id);
   const handleEditClick = () => setIsEditing(true);
 
-  const handleChange = (e) => setEditedText(e.target.value);
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) =>
+    setEditedText(event.target.value);
 
   const handleSave = () => {
     const trimmedText = editedText.trim();
@@ -26,9 +30,9 @@ const TodoItem = ({
   };
 
   const handleToggle = () => {
-    item.isComplete = !item.isComplete
+    item.isComplete = !item.isComplete;
     updateTodoItem(item);
-  }
+  };
 
   const handleCancel = () => {
     setEditedText(item.text);
