@@ -7,7 +7,7 @@ export const deleteTodo = async (
   res: Response<TodoDeleteSuccessResponse | ErrorResponse>
 ) => {
   try {
-    const deleted = await ToDoModel.findOneAndDelete({ id: req.params.id });
+    const deleted = await ToDoModel.findOneAndDelete({ _id: req.params.id });
     if (!deleted) return res.status(404).json({ error: 'Todo not found' });
     return res.status(200).json({ message: 'Todo deleted successfully' });
   } catch (error) {

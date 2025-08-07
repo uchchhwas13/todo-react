@@ -14,7 +14,7 @@ export const updateTodo = async (
 
   try {
     const updatedTodo = await ToDoModel.findOneAndUpdate(
-      { id: req.params.id },
+      { _id: req.params.id },
       { $set: todo },
       { new: true, runValidators: true }
     );

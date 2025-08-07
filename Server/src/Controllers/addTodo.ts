@@ -10,9 +10,9 @@ export const addTodo = async (
   req: Request<{}, {}, AddTodoRequestBody>,
   res: Response<TodoPostSuccessResponse | ErrorResponse>
 ) => {
-  const { id, text, isComplete } = req.body.todo;
+  const { text, isComplete } = req.body.todo;
   try {
-    const result = await ToDoModel.create({ id, text, isComplete });
+    const result = await ToDoModel.create({ text, isComplete });
     return res.status(201).json({ message: 'Todo added successfully', result });
   } catch (error) {
     console.error('Add error:', error);
