@@ -1,5 +1,5 @@
 // components/Todo.jsx
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import TodoItem from './TodoItem';
 import TodoHeader from './TodoHeader';
 import TodoInputSection from './TodoInputSection';
