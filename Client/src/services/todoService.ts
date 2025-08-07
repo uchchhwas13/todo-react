@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { AddTodoPayload } from '../type/type';
 
 const API_BASE = 'http://localhost:3000';
 
@@ -15,10 +16,8 @@ export const fetchTodos = async (): Promise<ApiResponse<TodoModel[]>> => {
   }
 };
 
-type AddTodoRequest = { text: string; isComplete: boolean };
-
 export const addTodo = async (
-  todo: AddTodoRequest
+  todo: AddTodoPayload
 ): Promise<ApiResponse<TodoModel>> => {
   try {
     const response = await axios.post<{ message: string; result: TodoModel }>(

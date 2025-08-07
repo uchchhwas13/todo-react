@@ -8,3 +8,4 @@ export type ApiResponse<T> = {
   data?: T;
   error?: string;
 };
+export type AddTodoPayload = { text: string; isComplete: boolean };
